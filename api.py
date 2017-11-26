@@ -1,5 +1,6 @@
 import math
-import datetime
+from datetime import datetime
+import pytz
 import ephem
 from tzwhere import tzwhere
 from flask import Flask, url_for, request, render_template, jsonify, make_response
@@ -9,7 +10,7 @@ app = Flask(__name__)
 CORS(app)
 
 #used for template footer:
-now = datetime.datetime.now()
+now = datetime.now()
 year = now.year
 
 
@@ -86,6 +87,9 @@ def updateLocation(lat, lon):
         observer.lon = '0'
     return
 
+def utc_to_local(t, tz):
+    return t.astimezone(pytz.timezone(tz))
+
 def computeData(obs, bs):
     # initialise dicts to return
     ret = {}
@@ -94,12 +98,14 @@ def computeData(obs, bs):
 
     # set metadata for observer
     # t = ephem.Date(ephem.now())
+    tz = getTz(obs)
+    utc = ephem.now().datetime()
     ret["meta"] = meta
     meta["utc"] = str(ephem.now())
-    meta["localtime"] = str(ephem.localtime(ephem.now())) # one for another time...
     meta["lat"] = str(obs.lat)
     meta["lon"] = str(obs.lon)
-    meta["tz"] = getTz(obs)
+    meta["tz"] = tz
+    meta["localtime"] = str(utc_to_local(utc, tz)) 
 
     # compute data for each object
     for body in bs:
@@ -111,9 +117,9 @@ def computeData(obs, bs):
         bodyData["az"] = str(body.az)
         # set rise or set key depending on current alt
         if body.alt > 0:
-            bodyData["set"] = str(obs.next_setting(body))
+            bodyData["set"] = str(utc_to_local((obs.next_setting(body)).datetime(), tz))
         elif body.alt <= 0:
-            bodyData["rise"] = str(obs.next_rising(body))
+            bodyData["rise"] = str(utc_to_local((obs.next_setting(body)).datetime(), tz))
         if bodyData["name"] == "Moon":
             bodyData["phase"] = body.moon_phase
         if bodyData["name"] == "Saturn":
