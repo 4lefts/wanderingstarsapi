@@ -116,9 +116,9 @@ def computeData(obs, bs):
         bodyData["az"] = str(body.az)
         # set rise or set key depending on current alt
         if body.alt > 0:
-            bodyData["set"] = str(utc_to_local((obs.next_rising(body)).datetime(), tz))
+            bodyData["set"] = str(utc_to_local((obs.next_setting(body)).datetime(), tz))
         elif body.alt <= 0:
-            bodyData["rise"] = str(utc_to_local((obs.next_setting(body)).datetime(), tz))
+            bodyData["rise"] = str(utc_to_local((obs.next_rising(body)).datetime(), tz))
         if bodyData["name"] == "Moon":
             bodyData["phase"] = body.moon_phase
         if bodyData["name"] == "Saturn":
