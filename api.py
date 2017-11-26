@@ -97,7 +97,6 @@ def computeData(obs, bs):
     bodies = []
 
     # set metadata for observer
-    # t = ephem.Date(ephem.now())
     tz = getTz(obs)
     utc = ephem.now().datetime()
     ret["meta"] = meta
@@ -117,7 +116,7 @@ def computeData(obs, bs):
         bodyData["az"] = str(body.az)
         # set rise or set key depending on current alt
         if body.alt > 0:
-            bodyData["set"] = str(utc_to_local((obs.next_setting(body)).datetime(), tz))
+            bodyData["set"] = str(utc_to_local((obs.next_rising(body)).datetime(), tz))
         elif body.alt <= 0:
             bodyData["rise"] = str(utc_to_local((obs.next_setting(body)).datetime(), tz))
         if bodyData["name"] == "Moon":
