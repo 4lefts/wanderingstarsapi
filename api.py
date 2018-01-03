@@ -31,6 +31,11 @@ def index():
     # return render_template("index.html", title="Wandering Stars", year=year, initialLat=initialLat, initialLong=initialLong)
     return render_template("index.html", title="Wandering Stars", year=year)
 
+@app.route('/api/')
+def api():
+    return render_template("api.html", title="Wandering Stars", year=year)
+
+
 @app.route('/api/<string:latitude>/<string:longitude>', methods=['GET'])
 def get_data(latitude, longitude):
     updateLocation(latitude, longitude)
