@@ -1,84 +1,32 @@
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en-GB">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
-    <title>{{title}}</title>
-    <style>
-        /* CSS Mini Reset */
-        /* from http://www.vcarrer.com/2010/05/css-mini-reset.html */
-
-        html, body, div, form, fieldset, legend, label
-        {
-        margin: 0;
-        padding: 0; 
-        }
-
-        table
-        {
-        border-collapse: collapse;
-        border-spacing: 0;
-        }
-
-        th, td
-        {
-        text-align: left;
-        vertical-align: top;
-        }
-
-        h1, h2, h3, h4, h5, h6, th, td, caption { font-weight:normal; }
-
-        img { border: 0; }
-        
-        /* end reset */
-
-        body{
-            font-size: 16px;
-            font-family: 'Fira Sans', sans-serif;
-            color: darkred;
-            background-color: black;
-        }
-
-        .wrapper{
-            max-width: 540px;
-            margin: 10px auto;
-            padding: 10px;
-            box-sizing: border-box;
-        }
-
-        header{
-            border-bottom: 1px solid darkred;
-        }
-
-        footer{
-            padding-top: 20px;
-            border-top: 1px solid darkred;
-        }
-    
-    </style>
-</head>
+    <title>Wandering Stars</title>
+<link href="{{url_for('static', filename='style.css')}}" rel="stylesheet"></head>
 <body>
-    <div class="wrapper">
-        <header>
-            <h1>Wandering Stars API</h1>
-        </header>
-        <h2>Welcome</h2>
-        <p>This site hosts the Wandering Stars API, a simple REST API that gives the altitude and azimuth of the following solar system objects:</p>
-        <ul>
-            <li>The Sun</li>
-            <li>The Moon</li>
-            <li>The planets (excluding Earth)</li>
-            <li>The Gililean satelites (coming soon)</li>
-        </ul>
-        <p>In addition, metadata are returned that give:</p>
-        <ul>
-            <li>The latitude and longitude of the request</li>
-            <li>The time of the request in local time and UTC</li>
-            <li>The timezone for the latitude and longitude of the request (areas not in any country (e.g. those at sea), will return "null")</li>
-        </ul>
-        <p>The API can be accessed by sending a get request to /api/latitude/longitude, e.g. api/50.7/-3.5 for Exeter, Devon, UK.</p>
-        <footer>By Stephen Ball, {{year}}</footer>
+    <header class="container">
+        <h1>Wandering Stars</h1>
+    </header>
+    <div id="data-container" class="container"></div>
+    <div class="container">
+        <p>Update Location:</p>
+        <form id="location-form">
+            <div>
+                <label for="lat-input">Latitude:</label>
+                <input type="number" name="lat-input" min="-90" max="90" step="0.1">
+            </div>
+            <div>
+                <label for="long-input">Longitude:</label>
+                <input type="number" name="long-input" min="-180" max="180" step="0.1">
+            </div>
+            <input type="submit" value="Update">
+        </form>
     </div>
-</body>
+    <footer class="container">
+        <p>A simple visualiser for Solar System objects. Allow geolocation in your browser to auto-detect location. By Stephen Ball.</p>
+    </footer>
+<script type="text/javascript" src="{{url_for('static', filename='app.js')}}"></script></body>
 </html>
