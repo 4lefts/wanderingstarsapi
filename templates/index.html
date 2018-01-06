@@ -3,6 +3,7 @@
 <header class="container">
     <h1>Wandering Stars</h1>
 </header>
+<div id="sky-container" class="container"></div>
 <div id="data-container" class="container"></div>
 <div class="container">
     <p>Update Location:</p>
@@ -19,7 +20,7 @@
     </form>
 </div>
 <footer class="container">
-    <p>A simple visualiser for Solar System objects. Allow geolocation in your browser to auto-detect location.<p>Stephen Ball, {{year}}.</p></p>
+    <p>A simple visualiser for Solar System objects. Allow geolocation in your browser to auto-detect location. By Stephen Ball.</p>
 </footer>
 <script type="text/javascript" src="{{url_for('static', filename='app.js')}}"></script>
 {% endblock %}
